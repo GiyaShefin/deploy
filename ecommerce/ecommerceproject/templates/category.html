@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+   {% if category %}
+      {{category.description|truncatewords:155}}
+{% else %}
+Welcome to my online shop where you can get variety of products from one store
+{% endif %}
+{% endblock %}
+{% block title %}
+ {% if category %}
+      {{category.name}}-My online shop
+{% else %}
+see our new products-My online shop
+{% endif %}
+{% endblock %}
+{% block content %}
+{% if category %}
+
+    <div class="row my_row_class">
+
+<div class="mx-auto">
+
+
+<div><a href="{% url 'shopapp:allProdCat' %}">Our new products</a>
+ </div>
+    </div>
+</div>
+
+{% endif %}
+<div class="mx_auto">
+
+    {% if category %}
+                    <a href=""><img style="width:100%;height:auto;" src="{{category.image.url}}" alt="{{category.name}}"> </a>
+
+</div>
+
+ <br>
+<div>
+   <h1 style="font-size:16px;
+text_transform:uppercase;
+letter-spacing:.2em;">{{category.name}}</h1>
+    <p class="text-justify">{{category.description}}</p>
+</div>
+
+{% else %}
+<div>
+    <img  class="my_image my_image_padding"src="{% static 'img/banner.png' %}" alt="our products">
+
+</div>
+
+<div>
+    <h1 style="text-align:center;font-size:16px;
+text_transform:uppercase;
+letter-spacing:.2em;">Our new products</h1>
+    <p class="text-justify">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+    </p>
+</div>
+{% endif %}
+<div class="container">
+    <div class="row mx_auto">
+        {% for product in products.object_list %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
+            <div class ="card text-center" style="min-width:18rem;">
+                <a href="{{product.get_url}}"><img style="width:25%;height:auto;" src="{{product.image.url}}" alt="{{product.name}}"> </a>
+                <div >
+                   <h4 style="font-size:14px;text-transform:uppercase;letter-spacing:.2em;"> {{product.name}}</h4>
+                    <h4 style="font-size:14px;text-transform:uppercase;letter-spacing:.2em;">{{product.price}}</h4>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+<div class="mx_auto">
+    {% if products.paginator.num_pages > 1 %}
+<hr>
+
+    <div class="text-center">
+        {% for pg in products.paginator.page_range %}
+   {% endfor %}
+   </div>
+{% endif %}
+</div>
+<br>
+</div>
